@@ -1,0 +1,248 @@
+{% extends 'mascotas/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+<!-- Carrusel principal -->
+<div id="homeCarousel" class="carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="3000">
+  <div class="carousel-inner rounded-4 shadow carousel-responsive">
+    <div class="carousel-item active">
+      <img src="{% static 'mascotas/img/carrusel1.jpg' %}" class="d-block w-100 h-100" alt="Mascotas felices">
+      <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+        <h5>Bienvenidos a Adoptapet</h5>
+        <p>Encuentra tu compañero ideal y cambia su vida.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'mascotas/img/carrusel2.jpg' %}" class="d-block w-100 h-100" alt="Evento de adopción">
+      <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+        <h5>Eventos de adopción</h5>
+        <p>Únete a nuestras jornadas y ayuda a más mascotas a encontrar un hogar.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'mascotas/img/carrusel3.webp' %}" class="d-block w-100 h-100" alt="Equipo Adoptapet">
+      <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+        <h5>Nuestro equipo</h5>
+        <p>Profesionales apasionados por el bienestar animal.</p>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Anterior</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Siguiente</span>
+  </button>
+</div>
+
+<style>
+/* Carrusel responsivo con altura adaptativa */
+.carousel-responsive {
+  aspect-ratio: 16/6; /* ancho / alto, ajustable según necesidad */
+  overflow: hidden;
+}
+
+.carousel-responsive img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* recorta sin deformar */
+}
+
+/* Overlay hover en tarjetas */
+.card-img-top:hover .overlay {
+    opacity: 1;
+}
+.card-img-top .overlay a {
+    text-decoration: none;
+}
+
+/* Texto del carrusel más legible */
+.carousel-caption {
+    text-shadow: 0 0 8px rgba(0,0,0,0.7);
+}
+
+/* Ajuste para móviles */
+@media (max-width: 768px) {
+  .carousel-responsive {
+    aspect-ratio: 16/9; /* más alto en móviles */
+  }
+  .carousel-caption h5 {
+    font-size: 1rem;
+  }
+  .carousel-caption p {
+    font-size: 0.8rem;
+  }
+}
+</style>
+
+
+
+  <!-- Sección Sobre Adoptapet -->
+  <section class="mb-5 text-center">
+    <h2 class="fw-bold mb-3 text-primary">Nuestra trayectoria</h2>
+    <p class="lead mx-auto" style="max-width:800px;">
+      Adoptapet nace con la misión de conectar mascotas necesitadas con familias responsables.
+      Desde nuestros inicios hemos realizado más de 500 adopciones exitosas, promoviendo
+      el cuidado y bienestar animal mediante jornadas, educación y campañas solidarias.
+    </p>
+    <img src="{% static 'mascotas/img/nosotros1.jpg' %}" alt="Trayectoria Adoptapet" class="img-fluid rounded shadow mt-3">
+  </section>
+
+  <!-- Perros en adopción -->
+  <h2 class="mb-4 text-center text-success">Perros en adopción</h2>
+  <div class="row g-4 mb-5">
+    {% for perro in perros %}
+      {% if perro.disponible %}
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden position-relative">
+            {% if perro.foto %}
+              <img src="{{ perro.foto.url }}" alt="{{ perro.nombre }}" class="img-fluid" style="height:200px; object-fit:cover; width:100%;">
+            {% else %}
+              <img src="https://via.placeholder.com/300x200?text=Sin+Imagen" class="img-fluid" alt="Sin Imagen">
+            {% endif %}
+            <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" style="background: rgba(0,0,0,0.3); opacity:0; transition: opacity 0.3s;">
+              <a href="{% url 'adopcion' %}" class="btn btn-success">Adoptar</a>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ perro.nombre }}</h5>
+              <p class="card-text">{{ perro.descripcion|truncatewords:15 }}</p>
+              <p class="mb-0"><strong>Edad:</strong> {{ perro.edad }} años</p>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% empty %}
+      <p class="text-center">No hay perros disponibles para adopción.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Gatos en adopción -->
+  <h2 class="mb-4 text-center text-warning">Gatos en adopción</h2>
+  <div class="row g-4 mb-5">
+    {% for gato in gatos %}
+      {% if gato.disponible %}
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden position-relative">
+            {% if gato.foto %}
+              <img src="{{ gato.foto.url }}" alt="{{ gato.nombre }}" class="img-fluid" style="height:200px; object-fit:cover; width:100%;">
+            {% else %}
+              <img src="https://via.placeholder.com/300x200?text=Sin+Imagen" class="img-fluid" alt="Sin Imagen">
+            {% endif %}
+            <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" style="background: rgba(0,0,0,0.3); opacity:0; transition: opacity 0.3s;">
+              <a href="{% url 'adopcion' %}" class="btn btn-success">Adoptar</a>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ gato.nombre }}</h5>
+              <p class="card-text">{{ gato.descripcion|truncatewords:15 }}</p>
+              <p class="mb-0"><strong>Edad:</strong> {{ gato.edad }} años</p>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% empty %}
+      <p class="text-center">No hay gatos disponibles para adopción.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Sección Eventos -->
+  <section class="mb-5">
+    <h2 class="fw-bold mb-4 text-center text-info">Eventos de adopción</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="col">
+        <div class="card shadow-sm rounded-4 overflow-hidden">
+          <img src="{% static 'mascotas/img/nosotros2.jpg' %}" class="card-img-top" alt="Evento 1" style="height:200px; object-fit:cover;">
+          <div class="card-body text-center">
+            <h5 class="card-title">Evento Primavera</h5>
+            <p class="card-text text-muted">Más de 50 mascotas encontraron un hogar.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm rounded-4 overflow-hidden">
+          <img src="{% static 'mascotas/img/vacunacion1.jpeg' %}" class="card-img-top" alt="Evento 2" style="height:200px; object-fit:cover;">
+          <div class="card-body text-center">
+            <h5 class="card-title">Jornada de Vacunación</h5>
+            <p class="card-text text-muted">Promoviendo salud y bienestar para todos los animales.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm rounded-4 overflow-hidden">
+          <img src="{% static 'mascotas/img/nosotros3.jpg' %}" class="card-img-top" alt="Evento 3" style="height:200px; object-fit:cover;">
+          <div class="card-body text-center">
+            <h5 class="card-title">Campaña Solidaria</h5>
+            <p class="card-text text-muted">Recaudando fondos para refugios y atención veterinaria.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Sección Equipo -->
+  <section class="mb-5 text-center">
+    <h2 class="fw-bold mb-4 text-secondary">Conoce a nuestro equipo</h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+      <div class="col">
+        <div class="card shadow-sm border-0 rounded-4 text-center">
+          <img src="{% static 'mascotas/img/colaborador2.jpg' %}" class="card-img-top rounded-circle mx-auto mt-3" alt="Miembro 1" style="width:120px; height:120px; object-fit:cover;">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">Yas Ruiz </h5>
+            <p class="card-text text-muted">Coordinadora de Adopciones</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm border-0 rounded-4 text-center">
+          <img src="{% static 'mascotas/img/colaborador1.jpg' %}" class="card-img-top rounded-circle mx-auto mt-3" alt="Miembro 2" style="width:120px; height:120px; object-fit:cover;">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">Jorge Torres</h5>
+            <p class="card-text text-muted">Veterinario</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm border-0 rounded-4 text-center">
+          <img src="{% static 'mascotas/img/colaboradora3.jpg' %}" class="card-img-top rounded-circle mx-auto mt-3" alt="Miembro 3" style="width:120px; height:120px; object-fit:cover;">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">Camila Rojas</h5>
+            <p class="card-text text-muted">Relaciones Públicas</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm border-0 rounded-4 text-center">
+          <img src="{% static 'mascotas/img/colaborador4.jpg' %}" class="card-img-top rounded-circle mx-auto mt-3" alt="Miembro 4" style="width:120px; height:120px; object-fit:cover;">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">freddy Lopez</h5>
+            <p class="card-text text-muted">Coordinador de Eventos</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<style>
+.card-img-top:hover + .overlay,
+.card-img-top:hover .overlay {
+    opacity: 1;
+}
+.card-img-top .overlay a {
+    text-decoration: none;
+}
+.carousel-caption {
+    text-shadow: 0 0 8px rgba(0,0,0,0.7);
+}
+</style>
+
+<!-- Bootstrap JS (necesario para carrusel y componentes) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}

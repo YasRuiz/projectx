@@ -1,0 +1,57 @@
+{% extends 'mascotas/base.html' %}
+{% block title %}Nosotros{% endblock %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-5 text-center fw-bold text-primary">Conoce a AdoptaPet</h2>
+
+  <!-- Introducción -->
+  <div class="card shadow-sm p-4 mb-5 rounded-4">
+    <p class="lead text-center">
+      En <strong>AdoptaPet</strong> creemos que cada mascota merece un hogar lleno de amor. 
+      Nuestra misión es unir a animales necesitados con familias responsables, asegurando 
+      bienestar y cuidado en cada paso del proceso de adopción.
+    </p>
+    <p class="text-center">
+      Trabajamos con refugios locales, veterinarios y voluntarios para garantizar que cada 
+      perro y gato esté sano, feliz y listo para comenzar una nueva vida junto a su familia ideal.
+    </p>
+  </div>
+
+  <!-- Misión, Visión y Valores -->
+  <div class="row text-center mb-5">
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm border-0 rounded-4 p-4">
+        <img src="{% static 'mascotas/img/nosotros1.jpg' %}" alt="Misión" class="mx-auto mb-3" style="width:300px;">
+        <h5 class="fw-bold">Nuestra Misión</h5>
+        <p class="text-muted">Conectar mascotas necesitadas con familias responsables, promoviendo adopciones felices y seguras.</p>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm border-0 rounded-4 p-4">
+        <img src="{% static 'mascotas/img/nosotros2.jpg' %}" alt="Visión" class="mx-auto mb-3" style="width:300px;">
+        <h5 class="fw-bold">Nuestra Visión</h5>
+        <p class="text-muted">Ser referente en adopción responsable, educación animal y bienestar de mascotas a nivel local e internacional.</p>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm border-0 rounded-4 p-4">
+        <img src="{% static 'mascotas/img/nosotros3.jpg' %}" alt="Valores" class="mx-auto mb-3" style="width:300px;">
+        <h5 class="fw-bold">Nuestros Valores</h5>
+        <p class="text-muted">Amor, compromiso, responsabilidad y transparencia en cada adopción que realizamos.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Llamado a la acción -->
+  <div class="text-center mb-5">
+    <a href="{% url 'adopcion' %}" class="btn btn-success btn-lg shadow-lg">¡Adopta una mascota hoy!</a>
+  </div>
+</div>
+
+<style>
+.card p {
+    line-height: 1.6;
+}
+</style>
+{% endblock %}
